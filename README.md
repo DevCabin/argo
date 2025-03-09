@@ -2,6 +2,22 @@
 
 A voice-controlled web application that enables interaction with AI and data through speech. The application uses Mozilla DeepSpeech for speech recognition, Claude AI for natural language processing, and Google Sheets as a database.
 
+## Features
+
+- Voice-to-text transcription
+- Natural language processing with Claude AI
+- Text-to-speech responses
+- Real-time chat interface
+- Modern, responsive design
+
+## Browser Compatibility
+
+For the best experience, please use a modern browser that supports the Web Speech API:
+- Chrome (recommended)
+- Edge
+- Safari
+- Firefox
+
 ## Flow
 TTS -> Claude AI -> DB -> Claude AI -> TTS
 
@@ -92,3 +108,9 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Todo
+
+- [ ] Add voice-controlled app settings
+- [ ] Implement conversation history
+- [ ] Add voice profile customization
