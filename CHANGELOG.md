@@ -33,6 +33,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Text-to-speech response playback
 - Version display in footer
 - Automatic deployment configuration in vercel.json
+- Custom ErrorBoundary component for error handling
+- Loading states for dynamic components
+- Improved component error catching and reporting
 
 ### Changed
 - Updated dependencies to stable versions:
@@ -48,6 +51,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced README with comprehensive documentation
 - Switched from DeepSeek to Claude AI for simpler integration
 - Improved Vercel deployment settings with explicit git configuration
+- Enhanced dynamic component loading with proper error boundaries
+- Updated version number to 1.0.2 for better tracking
+- Improved component loading with explicit module exports
 
 ### Fixed
 - Replaced next.config.ts with next.config.js for better compatibility
@@ -59,6 +65,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Corrected Tailwind directives in global styles
 - Added TypeScript declarations for Web Speech API
 - Configured automatic deployments in Vercel
+- Fixed dynamic import issues with VoiceChat component
+- Added proper error handling for component loading
+- Improved error reporting with custom ErrorBoundary
+- Fixed cache issues with deployment timestamps
 
 ## [0.1.0] - 2024-03-09
 ### Added
