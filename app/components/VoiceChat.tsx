@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from 'react';
 
-interface VoiceChatProps {}
-
 export default function VoiceChat() {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState('');

@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 
 // Import VoiceChat with no SSR
-const VoiceChat = dynamic(() => import('../src/components/VoiceChat'), {
+const VoiceChat = dynamic(() => import('./components/VoiceChat'), {
   ssr: false,
   loading: () => (
     <div className="w-full h-96 rounded-xl bg-gradient-to-b from-gray-50 to-gray-100 animate-pulse flex items-center justify-center text-gray-400">
@@ -36,7 +36,7 @@ export default function Home() {
           </div>
 
           <footer className="text-sm text-gray-500 mt-12 flex flex-col items-center gap-2">
-            <div>Version 1.0.6 - Simplified Build</div>
+            <div>Version 1.0.7 - Component Relocation</div>
             <div className="text-xs">Build: {new Date().toISOString()}</div>
           </footer>
         </main>

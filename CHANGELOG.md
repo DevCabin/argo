@@ -48,6 +48,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Detailed debug logging
 - Error state display UI
 - Speech recognition status tracking
+- Relocated VoiceChat component to app directory
+- Direct component imports
+- Improved component visibility
 
 ### Changed
 - Updated dependencies to stable versions:
@@ -84,6 +87,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Streamlined dynamic imports
 - Improved error feedback
 - Enhanced debug visibility
+- Updated component import paths
+- Moved VoiceChat to app/components
+- Updated to version 1.0.7
+- Simplified import structure
 
 ### Fixed
 - Replaced next.config.ts with next.config.js for better compatibility
@@ -113,6 +120,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Component loading reliability
 - Error state handling
 - Dynamic import stability
+- Component loading issues
+- Import path resolution
+- Dynamic component visibility
 
 ## [0.1.0] - 2024-03-09
 ### Added
