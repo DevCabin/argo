@@ -1,6 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Add your Next.js configuration options here
+  // Disable cache during testing
+  generateEtags: false,
+  // Add build timestamp for cache busting
+  env: {
+    BUILD_TIME: new Date().toISOString(),
+  },
 };
 
 module.exports = nextConfig; 

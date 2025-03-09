@@ -18,8 +18,9 @@ export default function Home() {
           Click the microphone button to start chatting
         </p>
         <VoiceChat />
-        <footer className="text-sm text-gray-500 mt-8">
-          Version 1.0.0
+        <footer className="text-sm text-gray-500 mt-8 flex flex-col items-center gap-2">
+          <div>Version 1.0.1</div>
+          <div className="text-blue-500">Deployment Test - {new Date().toISOString()}</div>
         </footer>
       </main>
     </div>
