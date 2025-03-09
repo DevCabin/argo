@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useSpeechRecognition } from '../hooks/useSpeechRecognition';
 
 export default function VoiceChat() {
@@ -8,13 +8,23 @@ export default function VoiceChat() {
   const [error, setError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const lastTranscriptRef = useRef<string>('');
+  const isMountedRef = useRef(true);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   const handleTranscript = useCallback(async (text: string) => {
-    // Only update the display transcript, don't send to API yet
+    if (!isMountedRef.current) return;
     lastTranscriptRef.current = text;
   }, []);
 
   const handleRecordingStop = useCallback(async () => {
+    if (!isMountedRef.current) return;
+    
     const finalTranscript = lastTranscriptRef.current.trim();
     if (!finalTranscript || isProcessing) return;
 
@@ -39,16 +49,22 @@ export default function VoiceChat() {
         throw new Error('No response from AI');
       }
 
-      setMessages(prev => [...prev, { role: 'assistant', content: data.response }]);
-      
-      const utterance = new SpeechSynthesisUtterance(data.response);
-      window.speechSynthesis.speak(utterance);
+      if (isMountedRef.current) {
+        setMessages(prev => [...prev, { role: 'assistant', content: data.response }]);
+        
+        const utterance = new SpeechSynthesisUtterance(data.response);
+        window.speechSynthesis.speak(utterance);
+      }
     } catch (err) {
       console.error('Error querying Claude:', err);
-      setError(err instanceof Error ? err.message : 'Failed to get AI response');
+      if (isMountedRef.current) {
+        setError(err instanceof Error ? err.message : 'Failed to get AI response');
+      }
     } finally {
-      setIsProcessing(false);
-      lastTranscriptRef.current = '';
+      if (isMountedRef.current) {
+        setIsProcessing(false);
+        lastTranscriptRef.current = '';
+      }
     }
   }, [isProcessing]);
 

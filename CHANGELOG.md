@@ -67,6 +67,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Processing state for API calls
 - Better error handling for API responses
 - TypeScript interfaces for speech recognition events
+- Component mount tracking with isMountedRef
+- Batched state updates for speech recognition
+- Safe state updates in async operations
 
 ### Changed
 - Updated dependencies to stable versions:
@@ -123,6 +126,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved speech recognition handling
 - Enhanced API error handling
 - Better TypeScript type safety
+- Improved component lifecycle management
+- Enhanced state update safety
+- Better cleanup handling
 
 ### Fixed
 - Replaced next.config.ts with next.config.js for better compatibility
@@ -170,4 +176,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Multiple transcript submissions
 - Speech recognition state management
 - API error handling
-- TypeScript type errors in speech recognition 
+- TypeScript type errors in speech recognition
+- React errors #425, #418, and #423
+- Component unmount state updates
+- Memory leaks in speech recognition
+- Race conditions in state updates 
