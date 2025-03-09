@@ -63,6 +63,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Memoized toggle function with useCallback
 - Text color classes for better visibility
 - Improved contrast in chat bubbles
+- Speech recognition stop callback
+- Processing state for API calls
+- Better error handling for API responses
+- TypeScript interfaces for speech recognition events
 
 ### Changed
 - Updated dependencies to stable versions:
@@ -116,6 +120,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed React component mounting issues
 - Enhanced message bubble styling
 - Updated transcript display visibility
+- Improved speech recognition handling
+- Enhanced API error handling
+- Better TypeScript type safety
 
 ### Fixed
 - Replaced next.config.ts with next.config.js for better compatibility
@@ -159,4 +166,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Speech recognition state management
 - Component cleanup on unmount
 - White text on light background issue
-- Message visibility in chat interface 
+- Message visibility in chat interface
+- Multiple transcript submissions
+- Speech recognition state management
+- API error handling
+- TypeScript type errors in speech recognition 

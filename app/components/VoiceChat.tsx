@@ -1,42 +1,61 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { useSpeechRecognition } from '../hooks/useSpeechRecognition';
 
 export default function VoiceChat() {
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([]);
   const [error, setError] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const lastTranscriptRef = useRef<string>('');
 
   const handleTranscript = useCallback(async (text: string) => {
-    if (text.trim()) {
-      setMessages(prev => [...prev, { role: 'user', content: text }]);
-      
-      try {
-        const response = await fetch('/api/claude', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ prompt: text }),
-        });
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        setMessages(prev => [...prev, { role: 'assistant', content: data.response }]);
-        
-        const utterance = new SpeechSynthesisUtterance(data.response);
-        window.speechSynthesis.speak(utterance);
-      } catch (err) {
-        console.error('Error querying Claude:', err);
-        setError('Failed to get AI response');
-      }
-    }
+    // Only update the display transcript, don't send to API yet
+    lastTranscriptRef.current = text;
   }, []);
+
+  const handleRecordingStop = useCallback(async () => {
+    const finalTranscript = lastTranscriptRef.current.trim();
+    if (!finalTranscript || isProcessing) return;
+
+    setIsProcessing(true);
+    setError(null);
+
+    try {
+      setMessages(prev => [...prev, { role: 'user', content: finalTranscript }]);
+      
+      const response = await fetch('/api/claude', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: finalTranscript }),
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      if (!data.response) {
+        throw new Error('No response from AI');
+      }
+
+      setMessages(prev => [...prev, { role: 'assistant', content: data.response }]);
+      
+      const utterance = new SpeechSynthesisUtterance(data.response);
+      window.speechSynthesis.speak(utterance);
+    } catch (err) {
+      console.error('Error querying Claude:', err);
+      setError(err instanceof Error ? err.message : 'Failed to get AI response');
+    } finally {
+      setIsProcessing(false);
+      lastTranscriptRef.current = '';
+    }
+  }, [isProcessing]);
 
   const { isListening, transcript, toggleListening, setTranscript } = useSpeechRecognition({
     onTranscript: handleTranscript,
-    onError: setError
+    onError: setError,
+    onStop: handleRecordingStop
   });
 
   if (error) {
@@ -67,13 +86,21 @@ export default function VoiceChat() {
             {transcript}
           </div>
         )}
+        {isProcessing && (
+          <div className="text-gray-500 text-center">
+            Processing your message...
+          </div>
+        )}
       </div>
       
       <button
         onClick={toggleListening}
+        disabled={isProcessing}
         className={`p-4 rounded-full ${
           isListening
             ? 'bg-red-500 hover:bg-red-600'
+            : isProcessing
+            ? 'bg-gray-400 cursor-not-allowed'
             : 'bg-blue-500 hover:bg-blue-600'
         } text-white transition-colors w-16 h-16 flex items-center justify-center`}
         aria-label={isListening ? 'Stop recording' : 'Start recording'}
