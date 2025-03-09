@@ -18,6 +18,9 @@ export default function Home() {
           Click the microphone button to start chatting
         </p>
         <VoiceChat />
+        <footer className="text-sm text-gray-500 mt-8">
+          Version 1.0.0
+        </footer>
       </main>
     </div>
   );
