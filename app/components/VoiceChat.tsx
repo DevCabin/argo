@@ -1,114 +1,43 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useCallback } from 'react';
+import { useSpeechRecognition } from '../hooks/useSpeechRecognition';
 
 export default function VoiceChat() {
-  const [isListening, setIsListening] = useState(false);
-  const [transcript, setTranscript] = useState('');
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([]);
   const [error, setError] = useState<string | null>(null);
-  const recognitionRef = useRef<any>(null);
 
-  // Initialize speech recognition
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      return;
-    }
-
-    const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
-    
-    if (!SpeechRecognition) {
-      setError('Speech recognition not supported in this browser');
-      return;
-    }
-
-    try {
-      const recognition = new SpeechRecognition();
-      recognition.continuous = true;
-      recognition.interimResults = true;
+  const handleTranscript = useCallback(async (text: string) => {
+    if (text.trim()) {
+      setMessages(prev => [...prev, { role: 'user', content: text }]);
       
-      recognition.onstart = () => {
-        console.log('Speech recognition started');
-        setIsListening(true);
-      };
-
-      recognition.onresult = (event: any) => {
-        const current = event.resultIndex;
-        const transcriptText = event.results[current][0].transcript;
-        console.log('Transcript:', transcriptText);
-        setTranscript(transcriptText);
-      };
-
-      recognition.onerror = (event: any) => {
-        console.error('Recognition error:', event.error);
-        setError(`Recognition error: ${event.error}`);
-      };
-
-      recognition.onend = () => {
-        console.log('Speech recognition ended');
-        if (isListening) {
-          recognition.start();
-        }
-      };
-
-      recognitionRef.current = recognition;
-      
-      return () => {
-        if (recognitionRef.current) {
-          recognitionRef.current.stop();
-        }
-      };
-    } catch (err) {
-      console.error('Error initializing speech recognition:', err);
-      setError('Failed to initialize speech recognition');
-    }
-  }, []); // Empty dependency array for initialization
-
-  const toggleListening = useCallback(async () => {
-    try {
-      if (!recognitionRef.current) {
-        setError('Speech recognition not initialized');
-        return;
-      }
-
-      if (!isListening) {
-        await recognitionRef.current.start();
-      } else {
-        recognitionRef.current.stop();
-        setIsListening(false);
+      try {
+        const response = await fetch('/api/claude', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt: text }),
+        });
         
-        if (transcript.trim()) {
-          setMessages(prev => [...prev, { role: 'user', content: transcript }]);
-          
-          try {
-            const response = await fetch('/api/claude', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ prompt: transcript }),
-            });
-            
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            const data = await response.json();
-            setMessages(prev => [...prev, { role: 'assistant', content: data.response }]);
-            
-            const utterance = new SpeechSynthesisUtterance(data.response);
-            window.speechSynthesis.speak(utterance);
-          } catch (err) {
-            console.error('Error querying Claude:', err);
-            setError('Failed to get AI response');
-          }
-          
-          setTranscript('');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
+        
+        const data = await response.json();
+        setMessages(prev => [...prev, { role: 'assistant', content: data.response }]);
+        
+        const utterance = new SpeechSynthesisUtterance(data.response);
+        window.speechSynthesis.speak(utterance);
+      } catch (err) {
+        console.error('Error querying Claude:', err);
+        setError('Failed to get AI response');
       }
-    } catch (err) {
-      console.error('Error toggling recognition:', err);
-      setError('Failed to toggle speech recognition');
     }
-  }, [isListening, transcript]);
+  }, []);
+
+  const { isListening, transcript, toggleListening, setTranscript } = useSpeechRecognition({
+    onTranscript: handleTranscript,
+    onError: setError
+  });
 
   if (error) {
     return (
@@ -124,7 +53,7 @@ export default function VoiceChat() {
         {messages.map((message, index) => (
           <div
             key={index}
-            className={`mb-4 p-3 rounded-lg ${
+            className={`mb-4 p-3 rounded-lg text-gray-800 ${
               message.role === 'user'
                 ? 'bg-blue-100 ml-auto max-w-[80%]'
                 : 'bg-gray-100 mr-auto max-w-[80%]'
@@ -134,7 +63,7 @@ export default function VoiceChat() {
           </div>
         ))}
         {transcript && (
-          <div className="bg-blue-50 p-3 rounded-lg ml-auto max-w-[80%] italic">
+          <div className="bg-blue-50 p-3 rounded-lg ml-auto max-w-[80%] italic text-gray-800">
             {transcript}
           </div>
         )}

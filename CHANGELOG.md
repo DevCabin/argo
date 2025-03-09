@@ -61,6 +61,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - React useRef for speech recognition instance
 - Proper cleanup in useEffect
 - Memoized toggle function with useCallback
+- Text color classes for better visibility
+- Improved contrast in chat bubbles
 
 ### Changed
 - Updated dependencies to stable versions:
@@ -112,6 +114,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced state management
 - Updated speech recognition initialization
 - Fixed React component mounting issues
+- Enhanced message bubble styling
+- Updated transcript display visibility
 
 ### Fixed
 - Replaced next.config.ts with next.config.js for better compatibility
@@ -153,4 +157,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - React errors #425, #418, and #423
 - Multiple component mount issues
 - Speech recognition state management
-- Component cleanup on unmount 
+- Component cleanup on unmount
+- White text on light background issue
+- Message visibility in chat interface 
