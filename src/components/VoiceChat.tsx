@@ -1,10 +1,19 @@
 import { useState, useEffect } from 'react';
 
+// Add proper TypeScript declarations
+declare global {
+  interface Window {
+    SpeechRecognition: typeof SpeechRecognition;
+    webkitSpeechRecognition: typeof SpeechRecognition;
+    recognitionInstance: any;
+  }
+}
+
 interface VoiceChatProps {
   onLoad?: () => void;
 }
 
-export default function VoiceChat({ onLoad }: VoiceChatProps) {
+const VoiceChat: React.FC<VoiceChatProps> = ({ onLoad }) => {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [messages, setMessages] = useState<{ role: 'user' | 'assistant'; content: string }[]>([]);
@@ -17,26 +26,34 @@ export default function VoiceChat({ onLoad }: VoiceChatProps) {
   // Initialize speech recognition
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      const recognition = new SpeechRecognition();
-      
-      recognition.continuous = true;
-      recognition.interimResults = true;
-      
-      recognition.onresult = (event: SpeechRecognitionEvent) => {
-        const current = event.resultIndex;
-        const transcriptText = event.results[current][0].transcript;
-        setTranscript(transcriptText);
-      };
-
-      recognition.onend = () => {
-        if (isListening) {
-          recognition.start();
+      try {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+          console.error('Speech recognition not supported');
+          return;
         }
-      };
+        
+        const recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        
+        recognition.onresult = (event: SpeechRecognitionEvent) => {
+          const current = event.resultIndex;
+          const transcriptText = event.results[current][0].transcript;
+          setTranscript(transcriptText);
+        };
 
-      // Store recognition instance in window to prevent recreation
-      window.recognitionInstance = recognition;
+        recognition.onend = () => {
+          if (isListening) {
+            recognition.start();
+          }
+        };
+
+        // Store recognition instance in window
+        window.recognitionInstance = recognition;
+      } catch (error) {
+        console.error('Error initializing speech recognition:', error);
+      }
     }
   }, [isListening]);
 
@@ -133,4 +150,6 @@ export default function VoiceChat({ onLoad }: VoiceChatProps) {
       </button>
     </div>
   );
-} 
+};
+
+export default VoiceChat; 

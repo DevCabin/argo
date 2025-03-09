@@ -41,6 +41,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Loading state indicator for VoiceChat component
 - Component load tracking with onLoad callback
 - Enhanced UI with gradient backgrounds and animations
+- Debug logging for component loading
+- Improved loading animations
+- Enhanced error tracking for dynamic imports
 
 ### Changed
 - Updated dependencies to stable versions:
@@ -66,6 +69,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated version to 1.0.4
 - Enhanced visual design with new gradients and animations
 - Streamlined error handling approach
+- Updated to version 1.0.5 with debug build
+- Improved dynamic import error handling
+- Enhanced loading state visuals
+- Simplified component structure
+- Added explicit error boundaries
 
 ### Fixed
 - Replaced next.config.ts with next.config.js for better compatibility
@@ -86,6 +94,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Cache-Control headers
 - Disabled etag generation during testing
 - Implemented strict page reloading
+- Component loading visibility issues
+- Dynamic import error handling
+- Added proper TypeScript declarations
+- Improved error reporting
 
 ## [0.1.0] - 2024-03-09
 ### Added
