@@ -25,6 +25,9 @@ function ErrorFallback() {
   );
 }
 
+// Force new build with timestamp
+const BUILD_TIME = new Date().toISOString();
+
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-8">
@@ -35,14 +38,18 @@ export default function Home() {
         <p className="text-xl mb-8">
           Click the microphone button to start chatting
         </p>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={
+          <div className="w-full h-96 bg-gray-50 rounded-lg p-4 flex items-center justify-center">
+            Loading voice interface...
+          </div>
+        }>
           <ErrorBoundary fallback={<ErrorFallback />}>
             <VoiceChat />
           </ErrorBoundary>
         </Suspense>
         <footer className="text-sm text-gray-500 mt-8 flex flex-col items-center gap-2">
-          <div>Version 1.0.2</div>
-          <div className="text-blue-500">Deployment Test - {new Date().toISOString()}</div>
+          <div>Version 1.0.3 (Clean Build)</div>
+          <div className="text-blue-500">Build Time: {BUILD_TIME}</div>
         </footer>
       </main>
     </div>
