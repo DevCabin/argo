@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Simplified page layout with clean design
 - Updated metadata with proper project title and description
 - Switched from Geist to Inter font for better compatibility
+- Updated Tailwind directives in globals.css
 
 ### Fixed
 - Replaced next.config.ts with next.config.js for better compatibility
@@ -31,6 +32,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added missing Tailwind configuration
 - Fixed font configuration issues
 - Removed unused image imports and simplified markup
+- Fixed PostCSS configuration for Tailwind CSS
+- Corrected Tailwind directives in global styles
 
 ## [0.1.0] - 2024-03-09
 ### Added
