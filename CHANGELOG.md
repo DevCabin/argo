@@ -26,6 +26,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - API route for Claude interactions
   - Error handling and type safety
   - Response parsing for text content
+- Voice Chat Interface:
+  - Real-time speech-to-text transcription
+  - Chat message history display
+  - Voice recording toggle button
+  - Text-to-speech response playback
+- Version display in footer
+- Automatic deployment configuration in vercel.json
 
 ### Changed
 - Updated dependencies to stable versions:
@@ -40,6 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated Tailwind directives in globals.css
 - Enhanced README with comprehensive documentation
 - Switched from DeepSeek to Claude AI for simpler integration
+- Improved Vercel deployment settings with explicit git configuration
 
 ### Fixed
 - Replaced next.config.ts with next.config.js for better compatibility
@@ -49,6 +57,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed unused image imports and simplified markup
 - Fixed PostCSS configuration for Tailwind CSS
 - Corrected Tailwind directives in global styles
+- Added TypeScript declarations for Web Speech API
+- Configured automatic deployments in Vercel
 
 ## [0.1.0] - 2024-03-09
 ### Added
