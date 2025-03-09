@@ -56,6 +56,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Build and deployment settings
 - Fixed Vercel function pattern matching
 - Corrected API route file extensions
+- Updated Vercel function pattern for Next.js App Router
+- Corrected API route path pattern
 
 ### Changed
 - Updated dependencies to stable versions:
@@ -101,6 +103,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated deployment configuration
 - Updated function pattern in vercel.json
 - Fixed serverless function configuration
+- Modified function pattern to match app/api directory structure
+- Updated serverless function configuration for App Router
 
 ### Fixed
 - Replaced next.config.ts with next.config.js for better compatibility
@@ -136,4 +140,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Memory limit issues on Vercel free plan
 - Deployment configuration conflicts
 - Vercel function pattern matching error
-- API route file extension mismatch 
+- API route file extension mismatch
+- Vercel function pattern matching for App Router
+- API route path resolution in vercel.json 
