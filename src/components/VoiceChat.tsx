@@ -1,102 +1,118 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 
-// Add proper TypeScript declarations
-declare global {
-  interface Window {
-    SpeechRecognition: typeof SpeechRecognition;
-    webkitSpeechRecognition: typeof SpeechRecognition;
-    recognitionInstance: any;
-  }
-}
+interface VoiceChatProps {}
 
-interface VoiceChatProps {
-  onLoad?: () => void;
-}
-
-const VoiceChat: React.FC<VoiceChatProps> = ({ onLoad }) => {
+export default function VoiceChat() {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState('');
-  const [messages, setMessages] = useState<{ role: 'user' | 'assistant'; content: string }[]>([]);
+  const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Signal that the component has loaded
-    onLoad?.();
-  }, [onLoad]);
+    console.log('VoiceChat component mounted'); // Debug log
+    
+    if (typeof window === 'undefined') {
+      console.log('Window is undefined');
+      return;
+    }
 
-  // Initialize speech recognition
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!SpeechRecognition) {
-          console.error('Speech recognition not supported');
-          return;
+    const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
+    
+    if (!SpeechRecognition) {
+      setError('Speech recognition not supported in this browser');
+      console.error('Speech recognition not available');
+      return;
+    }
+
+    try {
+      const recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      
+      recognition.onstart = () => {
+        console.log('Speech recognition started');
+        setIsListening(true);
+      };
+
+      recognition.onresult = (event: any) => {
+        const current = event.resultIndex;
+        const transcriptText = event.results[current][0].transcript;
+        console.log('Transcript:', transcriptText);
+        setTranscript(transcriptText);
+      };
+
+      recognition.onerror = (event: any) => {
+        console.error('Recognition error:', event.error);
+        setError(`Recognition error: ${event.error}`);
+      };
+
+      recognition.onend = () => {
+        console.log('Speech recognition ended');
+        if (isListening) {
+          recognition.start();
         }
-        
-        const recognition = new SpeechRecognition();
-        recognition.continuous = true;
-        recognition.interimResults = true;
-        
-        recognition.onresult = (event: SpeechRecognitionEvent) => {
-          const current = event.resultIndex;
-          const transcriptText = event.results[current][0].transcript;
-          setTranscript(transcriptText);
-        };
+      };
 
-        recognition.onend = () => {
-          if (isListening) {
-            recognition.start();
-          }
-        };
-
-        // Store recognition instance in window
-        window.recognitionInstance = recognition;
-      } catch (error) {
-        console.error('Error initializing speech recognition:', error);
-      }
+      // Store recognition instance
+      (window as any).recognitionInstance = recognition;
+      
+      console.log('Speech recognition initialized');
+    } catch (err) {
+      console.error('Error initializing speech recognition:', err);
+      setError('Failed to initialize speech recognition');
     }
   }, [isListening]);
 
   const toggleListening = async () => {
-    if (!isListening) {
-      try {
-        await window.recognitionInstance.start();
-        setIsListening(true);
-      } catch (error) {
-        console.error('Error starting recognition:', error);
-      }
-    } else {
-      window.recognitionInstance.stop();
-      setIsListening(false);
-      
-      if (transcript.trim()) {
-        // Add user message
-        setMessages(prev => [...prev, { role: 'user', content: transcript }]);
+    try {
+      if (!isListening) {
+        await (window as any).recognitionInstance?.start();
+      } else {
+        (window as any).recognitionInstance?.stop();
+        setIsListening(false);
         
-        // Send to Claude API
-        try {
-          const response = await fetch('/api/claude', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: transcript }),
-          });
+        if (transcript.trim()) {
+          setMessages(prev => [...prev, { role: 'user', content: transcript }]);
           
-          const data = await response.json();
+          try {
+            const response = await fetch('/api/claude', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ prompt: transcript }),
+            });
+            
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            setMessages(prev => [...prev, { role: 'assistant', content: data.response }]);
+            
+            const utterance = new SpeechSynthesisUtterance(data.response);
+            window.speechSynthesis.speak(utterance);
+          } catch (err) {
+            console.error('Error querying Claude:', err);
+            setError('Failed to get AI response');
+          }
           
-          // Add Claude's response
-          setMessages(prev => [...prev, { role: 'assistant', content: data.response }]);
-          
-          // Speak the response
-          const utterance = new SpeechSynthesisUtterance(data.response);
-          window.speechSynthesis.speak(utterance);
-        } catch (error) {
-          console.error('Error querying Claude:', error);
+          setTranscript('');
         }
-        
-        setTranscript('');
       }
+    } catch (err) {
+      console.error('Error toggling recognition:', err);
+      setError('Failed to toggle speech recognition');
     }
   };
+
+  if (error) {
+    return (
+      <div className="w-full p-4 bg-red-50 rounded-lg text-red-600">
+        Error: {error}
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center gap-8 w-full max-w-2xl mx-auto">
@@ -150,6 +166,4 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ onLoad }) => {
       </button>
     </div>
   );
-};
-
-export default VoiceChat; 
+} 

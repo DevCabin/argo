@@ -44,6 +44,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Debug logging for component loading
 - Improved loading animations
 - Enhanced error tracking for dynamic imports
+- Comprehensive error handling in VoiceChat
+- Detailed debug logging
+- Error state display UI
+- Speech recognition status tracking
 
 ### Changed
 - Updated dependencies to stable versions:
@@ -74,6 +78,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced loading state visuals
 - Simplified component structure
 - Added explicit error boundaries
+- Simplified component architecture
+- Removed complex TypeScript declarations
+- Updated to version 1.0.6
+- Streamlined dynamic imports
+- Improved error feedback
+- Enhanced debug visibility
 
 ### Fixed
 - Replaced next.config.ts with next.config.js for better compatibility
@@ -98,6 +108,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dynamic import error handling
 - Added proper TypeScript declarations
 - Improved error reporting
+- TypeScript compilation issues
+- Speech recognition initialization
+- Component loading reliability
+- Error state handling
+- Dynamic import stability
 
 ## [0.1.0] - 2024-03-09
 ### Added
