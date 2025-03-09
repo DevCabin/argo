@@ -36,6 +36,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Custom ErrorBoundary component for error handling
 - Loading states for dynamic components
 - Improved component error catching and reporting
+- Build timestamp display in footer
+- Cache prevention headers in Next.js config
 
 ### Changed
 - Updated dependencies to stable versions:
@@ -52,8 +54,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Switched from DeepSeek to Claude AI for simpler integration
 - Improved Vercel deployment settings with explicit git configuration
 - Enhanced dynamic component loading with proper error boundaries
-- Updated version number to 1.0.2 for better tracking
+- Updated version number to 1.0.3 for better tracking
 - Improved component loading with explicit module exports
+- Added build timestamp for better version tracking
+- Improved Next.js configuration for development
 
 ### Fixed
 - Replaced next.config.ts with next.config.js for better compatibility
@@ -69,6 +73,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added proper error handling for component loading
 - Improved error reporting with custom ErrorBoundary
 - Fixed cache issues with deployment timestamps
+- Cache-related issues with Vercel deployment
+- Next.js configuration to prevent caching
+- Added Cache-Control headers
+- Disabled etag generation during testing
+- Implemented strict page reloading
 
 ## [0.1.0] - 2024-03-09
 ### Added
