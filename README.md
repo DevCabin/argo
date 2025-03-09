@@ -1,4 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Argo - Voice AI Application
+
+A voice-controlled web application that enables interaction with AI and data through speech. The application uses Mozilla DeepSpeech for speech recognition, DeepSeek for AI processing, and Google Sheets as a database.
+
+## Flow
+TTS -> LLM AI -> DB -> LLM AI -> TTS
+
+1. Voice input is converted to text using Mozilla DeepSpeech
+2. Text is processed by DeepSeek AI
+3. Data is stored/retrieved from Google Sheets
+4. AI generates response using DeepSeek
+5. Response is converted back to speech using Web Speech API
+
+## Project Roadmap
+
+- [ ] Initialize Next.js project ✅
+- [ ] Set up Mozilla DeepSpeech in `/api/transcribe`
+- [ ] Configure DeepSeek local instance
+- [ ] Implement Google Sheets API connection
+- [ ] Create voice command parser:
+  - [ ] Write commands: "Add [item]" → Sheets append
+  - [ ] Read commands: "Show [filter]" → Sheets query
+- [ ] Build UI with voice controls:
+  - [ ] Record button
+  - [ ] Real-time transcription display
+- [ ] Add error handling for:
+  - [ ] Speech recognition failures
+  - [ ] Sheet API rate limits
+- [ ] Implement voice feedback system
+- [ ] Set up Vercel deployment config
+- [ ] Add environment variables for:
+  - [ ] Google Sheets credentials
+  - [ ] DeepSeek API key
+- [ ] Create demo video/docs
 
 ## Getting Started
 
@@ -20,6 +53,17 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Environment Variables
+
+Create a `.env.local` file with the following variables:
+
+```env
+GOOGLE_SHEETS_PRIVATE_KEY=
+GOOGLE_SHEETS_CLIENT_EMAIL=
+GOOGLE_SHEETS_SPREADSHEET_ID=
+DEEPSEEK_API_KEY=
+```
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
@@ -28,6 +72,10 @@ To learn more about Next.js, take a look at the following resources:
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+- [Mozilla DeepSpeech Documentation](https://github.com/mozilla/DeepSpeech)
+- [DeepSeek Documentation](https://github.com/deepseek-ai/DeepSeek-LLM)
+- [Google Sheets API Documentation](https://developers.google.com/sheets/api)
 
 ## Deploy on Vercel
 
