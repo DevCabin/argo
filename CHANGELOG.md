@@ -20,8 +20,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Directory structure for:
   - Voice interface components
   - DeepSpeech integration
-  - DeepSeek AI integration
   - Google Sheets integration
+- Claude AI Integration:
+  - Claude API client setup with TypeScript
+  - API route for Claude interactions
+  - Error handling and type safety
+  - Response parsing for text content
 
 ### Changed
 - Updated dependencies to stable versions:
@@ -35,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Switched from Geist to Inter font for better compatibility
 - Updated Tailwind directives in globals.css
 - Enhanced README with comprehensive documentation
+- Switched from DeepSeek to Claude AI for simpler integration
 
 ### Fixed
 - Replaced next.config.ts with next.config.js for better compatibility
