@@ -1,9 +1,18 @@
 import { useState, useEffect } from 'react';
 
-export default function VoiceChat() {
+interface VoiceChatProps {
+  onLoad?: () => void;
+}
+
+export default function VoiceChat({ onLoad }: VoiceChatProps) {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [messages, setMessages] = useState<{ role: 'user' | 'assistant'; content: string }[]>([]);
+
+  useEffect(() => {
+    // Signal that the component has loaded
+    onLoad?.();
+  }, [onLoad]);
 
   // Initialize speech recognition
   useEffect(() => {
@@ -14,7 +23,7 @@ export default function VoiceChat() {
       recognition.continuous = true;
       recognition.interimResults = true;
       
-      recognition.onresult = (event) => {
+      recognition.onresult = (event: SpeechRecognitionEvent) => {
         const current = event.resultIndex;
         const transcriptText = event.results[current][0].transcript;
         setTranscript(transcriptText);
