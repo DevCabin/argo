@@ -51,6 +51,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Relocated VoiceChat component to app directory
 - Direct component imports
 - Improved component visibility
+- Vercel configuration file for memory optimization
+- Function memory limits for API routes
+- Build and deployment settings
 
 ### Changed
 - Updated dependencies to stable versions:
@@ -91,6 +94,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Moved VoiceChat to app/components
 - Updated to version 1.0.7
 - Simplified import structure
+- Optimized API function memory usage
+- Reduced function duration limits
+- Updated deployment configuration
 
 ### Fixed
 - Replaced next.config.ts with next.config.js for better compatibility
@@ -123,7 +129,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Component loading issues
 - Import path resolution
 - Dynamic component visibility
-
-## [0.1.0] - 2024-03-09
-### Added
-- Initial commit with project bootstrap 
+- Memory limit issues on Vercel free plan
+- Deployment configuration conflicts 
