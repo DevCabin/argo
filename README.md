@@ -1,21 +1,24 @@
 # Argo - Voice AI Application
 
-A voice-controlled web application that enables interaction with AI and data through speech. The application uses Mozilla DeepSpeech for speech recognition, DeepSeek for AI processing, and Google Sheets as a database.
+A voice-controlled web application that enables interaction with AI and data through speech. The application uses Mozilla DeepSpeech for speech recognition, Claude AI for natural language processing, and Google Sheets as a database.
 
 ## Flow
-TTS -> LLM AI -> DB -> LLM AI -> TTS
+TTS -> Claude AI -> DB -> Claude AI -> TTS
 
 1. Voice input is converted to text using Mozilla DeepSpeech
-2. Text is processed by DeepSeek AI
+2. Text is processed by Claude AI
 3. Data is stored/retrieved from Google Sheets
-4. AI generates response using DeepSeek
+4. AI generates response using Claude
 5. Response is converted back to speech using Web Speech API
 
 ## Project Roadmap
 
-- [ ] Initialize Next.js project ✅
+- [x] Initialize Next.js project
 - [ ] Set up Mozilla DeepSpeech in `/api/transcribe`
-- [ ] Configure DeepSeek local instance
+- [x] Configure AI Integration:
+  - [x] Set up Claude API client
+  - [ ] Implement command parsing
+  - [ ] Add response generation
 - [ ] Implement Google Sheets API connection
 - [ ] Create voice command parser:
   - [ ] Write commands: "Add [item]" → Sheets append
@@ -23,14 +26,16 @@ TTS -> LLM AI -> DB -> LLM AI -> TTS
 - [ ] Build UI with voice controls:
   - [ ] Record button
   - [ ] Real-time transcription display
+  - [ ] Voice feedback indicator
 - [ ] Add error handling for:
   - [ ] Speech recognition failures
-  - [ ] Sheet API rate limits
+  - [ ] API rate limits
+  - [ ] Network issues
 - [ ] Implement voice feedback system
 - [ ] Set up Vercel deployment config
 - [ ] Add environment variables for:
   - [ ] Google Sheets credentials
-  - [ ] DeepSeek API key
+  - [ ] Claude API key
 - [ ] Create demo video/docs
 
 ## Getting Started
@@ -61,7 +66,7 @@ Create a `.env.local` file with the following variables:
 GOOGLE_SHEETS_PRIVATE_KEY=
 GOOGLE_SHEETS_CLIENT_EMAIL=
 GOOGLE_SHEETS_SPREADSHEET_ID=
-DEEPSEEK_API_KEY=
+CLAUDE_API_KEY=
 ```
 
 ## Learn More
@@ -74,7 +79,7 @@ To learn more about Next.js, take a look at the following resources:
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
 - [Mozilla DeepSpeech Documentation](https://github.com/mozilla/DeepSpeech)
-- [DeepSeek Documentation](https://github.com/deepseek-ai/DeepSeek-LLM)
+- [Claude AI Documentation](https://docs.anthropic.com/claude/reference/getting-started-with-the-api)
 - [Google Sheets API Documentation](https://developers.google.com/sheets/api)
 
 ## Deploy on Vercel
