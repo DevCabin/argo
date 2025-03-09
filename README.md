@@ -37,6 +37,11 @@ TTS -> Claude AI -> DB -> Claude AI -> TTS
   - [ ] Google Sheets credentials
   - [ ] Claude API key
 - [ ] Create demo video/docs
+- [ ] Add voice-controlled app settings:
+  - [ ] Store settings in database
+  - [ ] Voice commands to modify app behavior
+  - [ ] Persistent settings across sessions
+  - [ ] Real-time app updates based on settings
 
 ## Getting Started
 
