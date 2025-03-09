@@ -7,13 +7,20 @@ export default function VoiceChat() {
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([]);
   const [error, setError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
   const lastTranscriptRef = useRef<string>('');
   const isMountedRef = useRef(true);
+  const speechSynthesisRef = useRef<SpeechSynthesis | null>(null);
 
   useEffect(() => {
     isMountedRef.current = true;
+    speechSynthesisRef.current = window.speechSynthesis;
+    
     return () => {
       isMountedRef.current = false;
+      if (speechSynthesisRef.current) {
+        speechSynthesisRef.current.cancel();
+      }
     };
   }, []);
 
@@ -52,8 +59,10 @@ export default function VoiceChat() {
       if (isMountedRef.current) {
         setMessages(prev => [...prev, { role: 'assistant', content: data.response }]);
         
-        const utterance = new SpeechSynthesisUtterance(data.response);
-        window.speechSynthesis.speak(utterance);
+        if (speechSynthesisRef.current) {
+          const utterance = new SpeechSynthesisUtterance(data.response);
+          speechSynthesisRef.current.speak(utterance);
+        }
       }
     } catch (err) {
       console.error('Error querying Claude:', err);
@@ -70,9 +79,21 @@ export default function VoiceChat() {
 
   const { isListening, transcript, toggleListening, setTranscript } = useSpeechRecognition({
     onTranscript: handleTranscript,
-    onError: setError,
+    onError: (error) => {
+      if (isMountedRef.current) {
+        setError(error);
+        setIsInitialized(false);
+      }
+    },
     onStop: handleRecordingStop
   });
+
+  const handleToggleListening = useCallback(async () => {
+    if (!isInitialized) {
+      setIsInitialized(true);
+    }
+    await toggleListening();
+  }, [isInitialized, toggleListening]);
 
   if (error) {
     return (
@@ -110,7 +131,7 @@ export default function VoiceChat() {
       </div>
       
       <button
-        onClick={toggleListening}
+        onClick={handleToggleListening}
         disabled={isProcessing}
         className={`p-4 rounded-full ${
           isListening

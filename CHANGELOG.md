@@ -70,6 +70,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Component mount tracking with isMountedRef
 - Batched state updates for speech recognition
 - Safe state updates in async operations
+- Lazy initialization of speech recognition
+- Speech synthesis reference management
+- Initialization state tracking
+- RequestAnimationFrame for smoother updates
 
 ### Changed
 - Updated dependencies to stable versions:
@@ -129,6 +133,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved component lifecycle management
 - Enhanced state update safety
 - Better cleanup handling
+- Improved speech recognition initialization
+- Enhanced error handling for async operations
+- Better state management for speech synthesis
 
 ### Fixed
 - Replaced next.config.ts with next.config.js for better compatibility
@@ -180,4 +187,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - React errors #425, #418, and #423
 - Component unmount state updates
 - Memory leaks in speech recognition
-- Race conditions in state updates 
+- Race conditions in state updates
+- Storage access errors
+- Speech recognition initialization issues
+- Speech synthesis cleanup 
