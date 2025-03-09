@@ -1,18 +1,17 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 export default function VoiceChat() {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([]);
   const [error, setError] = useState<string | null>(null);
+  const recognitionRef = useRef<any>(null);
 
+  // Initialize speech recognition
   useEffect(() => {
-    console.log('VoiceChat component mounted'); // Debug log
-    
     if (typeof window === 'undefined') {
-      console.log('Window is undefined');
       return;
     }
 
@@ -20,7 +19,6 @@ export default function VoiceChat() {
     
     if (!SpeechRecognition) {
       setError('Speech recognition not supported in this browser');
-      console.error('Speech recognition not available');
       return;
     }
 
@@ -53,22 +51,30 @@ export default function VoiceChat() {
         }
       };
 
-      // Store recognition instance
-      (window as any).recognitionInstance = recognition;
+      recognitionRef.current = recognition;
       
-      console.log('Speech recognition initialized');
+      return () => {
+        if (recognitionRef.current) {
+          recognitionRef.current.stop();
+        }
+      };
     } catch (err) {
       console.error('Error initializing speech recognition:', err);
       setError('Failed to initialize speech recognition');
     }
-  }, [isListening]);
+  }, []); // Empty dependency array for initialization
 
-  const toggleListening = async () => {
+  const toggleListening = useCallback(async () => {
     try {
+      if (!recognitionRef.current) {
+        setError('Speech recognition not initialized');
+        return;
+      }
+
       if (!isListening) {
-        await (window as any).recognitionInstance?.start();
+        await recognitionRef.current.start();
       } else {
-        (window as any).recognitionInstance?.stop();
+        recognitionRef.current.stop();
         setIsListening(false);
         
         if (transcript.trim()) {
@@ -102,7 +108,7 @@ export default function VoiceChat() {
       console.error('Error toggling recognition:', err);
       setError('Failed to toggle speech recognition');
     }
-  };
+  }, [isListening, transcript]);
 
   if (error) {
     return (

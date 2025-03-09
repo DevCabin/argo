@@ -58,6 +58,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Corrected API route file extensions
 - Updated Vercel function pattern for Next.js App Router
 - Corrected API route path pattern
+- React useRef for speech recognition instance
+- Proper cleanup in useEffect
+- Memoized toggle function with useCallback
 
 ### Changed
 - Updated dependencies to stable versions:
@@ -105,6 +108,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed serverless function configuration
 - Modified function pattern to match app/api directory structure
 - Updated serverless function configuration for App Router
+- Improved component lifecycle management
+- Enhanced state management
+- Updated speech recognition initialization
+- Fixed React component mounting issues
 
 ### Fixed
 - Replaced next.config.ts with next.config.js for better compatibility
@@ -142,4 +149,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Vercel function pattern matching error
 - API route file extension mismatch
 - Vercel function pattern matching for App Router
-- API route path resolution in vercel.json 
+- API route path resolution in vercel.json
+- React errors #425, #418, and #423
+- Multiple component mount issues
+- Speech recognition state management
+- Component cleanup on unmount 
