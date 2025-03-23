@@ -1,128 +1,114 @@
-# Chat Application
+# ARGO - AI Assistant
 
-This repository contains the code for a chat application with LLM, Google Sheets, and web search integration, designed for deployment on Vercel.
+A modern AI assistant with natural language processing, Google Sheets integration, and web search capabilities.
 
-## Project Structure
+## Deployment Guide
 
-- `client/`: Contains the React frontend.
-- `server/`: Contains the Python Flask backend.
+### Prerequisites
+- A GitHub account
+- A Vercel account
+- OpenAI API key
+- Google Cloud credentials
+- Google Sheets ID
 
-## Setup
+### Deployment Steps
 
-1.  **Clone the repository:**
 
-    ```bash
-    git clone <repository_url>
-    cd chat-app
-    ```
+1. **Fork and Clone**
+   ```bash
+   git clone https://github.com/yourusername/argo.git
+   cd argo
+   ```
 
-2.  **Frontend Setup:**
+2. **Set up Vercel**
+   - Go to [Vercel](https://vercel.com)
+   - Create a new project
+   - Import your GitHub repository
+   - Select the root directory as the project root
 
-    ```bash
-    cd client
-    npm install
-    cd ..
-    ```
+3. **Configure Environment Variables**
+   In your Vercel project settings, add these environment variables:
+   ```
+   OPENAI_API_KEY=your_openai_api_key
+   GOOGLE_APPLICATION_CREDENTIALS=your_google_credentials_json
+   GOOGLE_SHEET_ID=your_google_sheet_id
+   ```
 
-3.  **Backend Setup:**
+4. **Deploy**
+   - Vercel will automatically detect the project structure
+   - Click "Deploy"
+   - Wait for the build to complete
 
-    ```bash
-    cd server
-    python3 -m venv venv
-    source venv/bin/activate
-    pip install -r requirements.txt # create requirements.txt first (see below)
-    deactivate
-    cd ..
-    ```
+5. **Verify Deployment**
+   - Check the deployment logs for any errors
+   - Test the chat interface
+   - Verify Google Sheets integration
 
-4.  **Environment Variables:**
+### Troubleshooting
 
-    -   Create a `.env` file in the `server/` directory and add your API keys and Google Sheets credentials.
-    -   Example `.env` content:
+If you encounter issues:
 
-        ```
-        OPENAI_API_KEY=your_openai_api_key
-        GOOGLE_SHEET_ID=your_google_sheet_id
-        GOOGLE_APPLICATION_CREDENTIALS=path/to/your/google_credentials.json
-        ```
+1. **Build Failures**
+   - Check the build logs in Vercel
+   - Verify all environment variables are set
+   - Ensure all dependencies are properly listed
 
-5.  **Running the Application:**
+2. **API Errors**
+   - Verify API keys are correct
+   - Check CORS settings
+   - Ensure proper API permissions
 
-    -   **Frontend:**
+3. **Google Sheets Issues**
+   - Verify Google Cloud credentials
+   - Check sheet permissions
+   - Ensure sheet ID is correct
 
-        ```bash
-        cd client
-        npm start
-        ```
+### Local Development (Optional)
 
-    -   **Backend:**
+If you want to develop locally:
 
-        ```bash
-        cd server
-        source venv/bin/activate
-        python app.py
-        deactivate
-        ```
+1. **Frontend**
+   ```bash
+   cd client
+   npm install
+   npm start
+   ```
 
-    -   You will need to have two terminal windows open to run both the client and server.
+2. **Backend**
+   ```bash
+   cd server
+   python3 -m venv venv
+   source venv/bin/activate
+   pip install -r requirements.txt
+   python app.py
+   ```
 
-## Vercel Deployment
+### Project Structure
+```
+argo/
+├── client/             # React frontend
+│   ├── src/           # Source files
+│   ├── public/        # Static files
+│   └── package.json   # Frontend dependencies
+├── server/            # Python backend
+│   ├── app.py        # Main application
+│   └── requirements.txt # Backend dependencies
+└── vercel.json       # Vercel configuration
+```
 
-1.  **Install Vercel CLI:**
-
-    ```bash
-    npm install -g vercel
-    ```
-
-2.  **Deploy the Frontend:**
-
-    -   Navigate to the `client/` directory and run:
-
-        ```bash
-        vercel
-        ```
-
-    -   Follow the prompts to deploy the frontend.
-
-3.  **Deploy the Backend:**
-
-    -   Navigate to the `server/` directory.
-
-    -   Create a `requirements.txt` file:
-
-        ```bash
-        source venv/bin/activate
-        pip freeze > requirements.txt
-        deactivate
-        ```
-
-    -   Run:
-
-        ```bash
-        vercel --prod
-        ```
-
-    -   Follow the prompts to deploy the backend. Make sure to add the environment variables in the Vercel project settings.
+## Features
+- Natural language chat interface
+- OpenAI GPT integration
+- Google Sheets knowledge base
+- Web search capabilities
+- Modern, responsive UI
+- Cross-platform compatibility
 
 ## Roadmap
-
--   **Phase 1: Core Functionality (MVP)**
-    -   Text-based chat interface with access to LLM and Google Sheets knowledge.
-    -   Basic web search integration.
-    -   Conversation history stored in Google Sheets.
--   **Phase 2: Enhanced Routing & Knowledge Base**
-    -   More intelligent routing of user requests.
-    -   Improved knowledge base search.
-    -   Better error handling.
--   **Phase 3: Speech Integration and Cross-Platform**
-    -   Microphone input for speech.
-    -   Cross-platform mobile apps.
-    -   Database for storing and analyzing past conversations.
-
-## Contributing
-
-Feel free to contribute to this project by submitting pull requests.
+- V2: Natural speech interface
+- V2: Google Calendar integration
+- V3: Mobile app development
+- V3: Enhanced AI capabilities
 
 ## License
-
-[MIT](LICENSE)
+MIT

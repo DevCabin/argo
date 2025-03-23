@@ -1,0 +1,14 @@
+{
+  "name": "argo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "client"
+  ],
+  "scripts": {
+    "start": "cd client && npm start",
+    "build": "cd client && npm run build",
+    "test": "cd client && npm test",
+    "server": "cd server && python app.py"
+  }
+} 
